@@ -150,23 +150,23 @@ def maior_menor_elemento(lista: SinglyLinkedListIterator):
 
 
 def iguais_listas(lst1: SinglyLinkedListIterator, lst2: SinglyLinkedListIterator):
-    if lst1.size != lst2.size:
-        print(f'listas diferentes')
+    if lst1.size == 0 and lst2.size ==0:
         return True
-    elif lst1.size==lst2.size:
+    elif lst1.size != lst2.size:
         return False
     else:
-        lst1.first_Node()
-        lst2.first_Node()
-        while lst1.iterator != None:
+        lst1.first_Node() # lst1.iterator = lst1.firstNode
+        lst2.first_Node()  # lst2.iterator = lst2.firstNode
+        while lst1.iterator:
             if lst1.iterator.data != lst2.iterator.data:
-                print("As listas são diferentes")
                 return False
             else:
-                lst1.nextNode()
-                lst2.nextNode()
-                print("as listas são iguais")
-                return True
+                lst1.nextNode() # lst1.iterator = lst1.iterator.nextNode
+                lst2.nextNode() # lst2.iterator = lst2.iterator.nextNode
+        return True
+
+
+
 
 
 
@@ -174,8 +174,7 @@ def iguais_listas(lst1: SinglyLinkedListIterator, lst2: SinglyLinkedListIterator
 def adicionar_final_lista(lst1: SinglyLinkedListIterator, data):
     # por o iterador no ultimo noh da lista
     lst1.last_Node() # lst1.iterator = lst1.lastNode
-    # adicionar o noh depois do iterador
-
+    # adcionar o noh depois do iterador
     # e o iterador vai ficar sobre o noh adicionado
     lst1.addNode(data)
 
@@ -191,12 +190,15 @@ def insLista(lst1: SinglyLinkedListIterator, data): # insere um elemento no inic
 
 
 def concatLista(lst1: SinglyLinkedListIterator, lst2: SinglyLinkedListIterator): # concatenar a lst2 no final da lst1
+    # por o iterador da lista 1 no ultimo noh
     lst1.last_Node()
+    # por o iterador da lista 2 no primeiro noh
     lst2.first_Node()
-    while lst2.iterator !=None:
+    # percorrer a lista 2:
+    while lst2.iterator:
         lst1.addNode(lst2.iterator.data)
-        lst2.nextNode()
-
+        lst2.nextNode() # lst2.iterator = lst2.iterator.nextNode
+    
 
 # verificar se o elemento data esta presente na lista lst.
 # se data estiver presente, retornar True, caso contrario, False
@@ -205,13 +207,13 @@ def esta_na_lista(lst:SinglyLinkedListIterator, data):
     if lst.size == 0:
         return False
     else:
-        lista.first_Node()
-        while lista.iterator:
-            if data == lista.iterator.data:
+        lst.first_Node() # lst.iterator = lst.firstNode
+        while lst.iterator:
+            if lst.iterator.data == data:
                 return True
-            lista.nextNode()
+            else:
+                lst.nextNode() # lst.iterator = lst.iterator.nextNode
         return False
-
     
 
 
@@ -219,11 +221,29 @@ def estaOrdenada(lst:SinglyLinkedListIterator): # ordem crescente
     # se a lista esta vazia ou com soh um elemento: return True
     if lst.size <= 1:
         return True
-    
+    else: # comparar o anterior com o seguinte(iterator)
+        anterior = lst.firstNode
+        lst.iterator = anterior.nextNode
+        while lst.iterator:
+            if anterior.data > lst.iterator.data:
+                return False
+            else: # avanca o anterior e o iterator
+                anterior = anterior.nextNode
+                lst.iterator = lst.iterator.nextNode
+        # ao sair do loop while: a lista esta em ordem crescente
+        return True
 
 def verifica_quinto_elemento_igual_elem(lst:SinglyLinkedListIterator, elem):
     if lst.size < 5:
         return False
+    else:
+        # por o iterador sobre o quinto elemento
+        lst.posNode(5)
+        # comparar com elem
+        if lst.iterator.data == elem:
+            return True
+        else:
+            return False
     
 
 
@@ -263,7 +283,7 @@ if __name__ == '__main__':
     lista3.addNode(10)
     lista3.addNode(20)
     lista3.addNode(30)
-    lista3.addNode(40)
+    lista3.addNode(20)
 
     print("===== print_listaSE ==========")
 
@@ -362,3 +382,6 @@ if __name__ == '__main__':
         print('lista 1 esta ordenada')
     else:
         print('lsita 1 nao esta ordenada')
+
+
+
