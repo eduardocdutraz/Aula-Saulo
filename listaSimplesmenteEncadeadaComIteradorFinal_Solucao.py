@@ -167,8 +167,9 @@ class SinglyLinkedListIterator:  # LinkedList
                 if(self.iterator.nextNode != None):
                     self.iterator = self.iterator.nextNode
                     i = i + 1
+            return  True
         else:
-            self.iterator = None
+            return False
 
 
     def isUndefinedIterator(self): # retorna verdadeiro se o iterador estiver indefinido
@@ -196,7 +197,7 @@ if __name__ == '__main__':
 
 
     novo_noh = ListNode(5)
-    novo_noh.data = 10
+    novo_noh.setData(10)
     lista22 = SinglyLinkedListIterator(novo_noh)
     lista = SinglyLinkedListIterator()
     lista.addNode(10)
@@ -208,10 +209,254 @@ if __name__ == '__main__':
     def printLista(lista):
         lista.first_Node() # por o iterador sobre o primeiro elemento
         while not lista.isUndefinedIterator():
-            #print(lista.iterator.data, end=" ")
-            print(lista.iterator.data)
+            #print(lista.get_iterator().getData(), end=" ")
+            print(lista.get_iterator().getData())
+            #print("teste", end=" ")
+            #lista.iterator.data
             lista.nextNode() # avanca iterador para proximo noh
             #lista.iterator = lista.iterador.nextNode
         print('\n')
 
 
+
+"""1) Verificar se duas listas são iguais. Duas listas são iguais se ambas as estruturas têm o mesmo 
+número de elementos, e estes são iguais um a um. Em particular, duas listas vazias são iguais. 
+int iguaisListas(Lista lst1, Lista lst2){...} """
+
+#nova implementacao
+def iguais_listas(lst1, lst2):
+    if(lst1.size != lst2.size): # listas com o mesmo tamanho
+        return False
+    else: # lst1 e lst2 tem o mesmo tamanho
+        #por o iterador sobre o primeiro no
+        lst1.first_Node() # lst1.iterator = lst1.firstNode
+        lst2.first_Node()
+        #loop para percorrer a lista
+        while not lst1.undefinedIterator():
+            #verificar se os elementos sob o iterador são diferentes
+            if(lst1.iterator.data != lst2.iterator.data):
+                return False
+            else: #avanca o iterador para o proximo No
+                lst1.nextNode()
+                lst2.nextNode()
+        #as duas lista sao iguais
+        return True
+
+
+def iguaisListas(lst1, lst2):
+    if lst1.getSize() != lst2.getSize(): # as listas tem tamanhos diferentes
+        return False # lst1.size != lst2.size
+    else:
+        nodeLst1 = lst1.firstNode  # lst1.get_firstNode()
+        nodeLst2 = lst2.firstNode  # lst2.get_firstNode()
+        while nodeLst1:
+            if(nodeLst1.data != nodeLst2.data):
+                return False
+            else:
+                nodeLst1 = nodeLst1.getNextNode()
+                nodeLst2 = nodeLst2.getNextNode()
+        return True
+
+
+"""6) Adiciona o elemento elem no final de lst: 
+void adicLista( Lista lst, TipoL elem){...} """
+
+#lista vazia
+#lista cheia
+def adicionar_final_lista(lst1, data):
+    if(lst1.size == 0):    #lista vazia
+        lst1.addNode(data)
+    else:                   #lista cheia
+        lst1.last_Node() # ponho iterador sobre ultimo no
+        lst1.addNode(data) # adiciono o elemento data
+
+
+def adicLista(lst1, data):
+    lst1.last_Node() # iterator sobre o ultimo elemento
+    lst1.addNode(data)
+
+def insLista(lst1, data): # insere um elemento no inicio da lista
+    lst1.first_Node() # iterator sobre o primeiro elemento
+    lst1.insNode(data)
+
+def concat_lista(lst1, lst2): # concatenar a lst2 no final da lst1
+    #lst1: por o iterador sobre o ultimo elemento
+    lst1.last_Node()
+    #lst2: por o iterador sobre o primeiro elemento
+    lst2.first_Node()
+    #loop para percorrer a lista 2:
+    while not lst2.undefinedIterator():
+        #adicionar o elmento do iterador da lista 2 na lista 1
+        lst1.addNode(lst2.iterator.data)
+        lst2.nextNode() # avancar o iterador da lista 2
+
+def concatLista(lst1, lst2): # concatenar a lst2 no final da lst1
+    #newNode = ListNode(None)
+    lst1.last_Node() # iterator da lista1 sobre o ultimo elemento
+    lst2.first_Node() # iterator da lista2 sobre o primeiro elemento
+    # nodeLst2 = lst2.get_iterator() # li o node do iterador
+    while not lst2.isUndefinedIterator(): # enquanto o iterador nao ficar indefinido(None)
+        newNode = lst2.get_iterator()
+        # print('valor do no= {}'.format(newNode.getData()))
+        lst1.addNode(newNode.getData()) # lst2.get_iterator().getData()  adiciona o node na lista 1 e o iterador da lista 1 fica sobre este noh
+        lst2.nextNode() # avanco o iterador da lst2 para o proxima no
+
+"""verfica se data esta na lista"""
+def esta_na_lista(lst:SinglyLinkedListIterator, data):
+    #verificar se a lista esta vazia
+    if(lst.size == 0):
+        return False
+    else: #lista esta cheia: o elemento pode estar na lista
+        #por o iterador sobre o primeiro elemento
+        lst.first_Node()
+        #loop para percorrer a lista
+        while not lst.isUndefinedIterator():
+            #verifica se o elemento esta no noh
+            if lst.iterator.data == data:
+                return True
+            else: #avanca o iterador
+                lst.nextNode()
+        #elemento nao esta na lista
+        return False
+
+
+def esta_na_lista_hardcoded(lst:SinglyLinkedListIterator, data):
+    #verificar se a lista esta vazia
+    if(lst.size == 0):
+        return False
+    else: #lista esta cheia: o elemento pode estar na lista
+        #por o iterador sobre o primeiro elemento
+        lst.iterator = lst.firstNode
+        #loop para percorrer a lista
+        while lst.iterator != Null:
+            #verifica se o elemento esta no noh
+            if lst.iterator.data == data:
+                return True
+            else: #avanca o iterador
+                lst.iterator = lst.iterator.nextNode
+        #elemento nao esta na lista
+        return False
+
+
+
+
+def estaNaLista(lst:SinglyLinkedListIterator, data):
+    if lst.getSize() == 0: # lista vazia lst.size == 0
+        return False
+    else: # lista cheia
+        lst.first_Node() # iterador sobre o primeiro elemento
+        while not lst.isUndefinedIterator(): # lst.iterator
+            if lst.get_iterator().getData() == data: #lst.iterator.data == data
+                return True
+            else:
+                lst.nextNode()
+        return False # iterator saiu da lista(indefinido): iterator == None
+
+"""verifica se a lista esta ordenada de forma crescente"""
+def estaOrdenada(lst:SinglyLinkedListIterator):
+    if lst.getSize() == 0: # lista vazia
+        return True
+    elif lst.getSize() == 1: # lst.size == 1
+        return True
+    else: # lst tem 2 ou mais elementos: comparar o anterior com proximo
+        lst.first_Node()
+        while lst.get_iterator().getNextNode(): # lst.iterator.nextNode
+            if(lst.get_iterator().getData() > lst.get_iterator().getNextNode().getData()):
+                return False
+            lst.nextNode()
+        return True
+
+#lst.iterator.data > lst.iterator.nextNode.data
+
+# 4) Verificar se uma lista lst2 está contida numa lista lst1. 
+# Para tal, todos os elementos de lst2 devem estar em lst1, 
+# mesmo em ordem diferente.
+# int contidaLista(Lista lst1, Lista lst2){...}
+# True ou False
+# Python: def contidaLista(lst1, lst2):{...}
+
+# lst2: < 2, 40, [30]>
+# lst1: <[2], [30]>[]
+
+# caso 0: as duas listas sao vazias: return True
+#caso 1: lst1 nao tem o elmento: return False
+# implica o iterador da lista lst1 ficar indefinido
+
+#caso 2: lst1 tem o elemento: verificar o proximo elemento de lst2
+#se o iterador na lista lst1 ficar indefinido, quer dizer que eu
+#percorri todos os elementos de lst2, e todos estavam na lista lst1,
+#ou seja, o caso 1 nao aconteceu.
+
+def contidaLista(lst1, lst2):
+    #caso 0: as duas listas sao vazias
+    if(lst1.size == 0 and lst2.size==0):
+        return True
+    elif(lst1.size == 0 and lst2.size!=0):
+        return False
+    elif(lst1.size != 0 and lst2.size==0):
+        return False
+    elif(lst1.size < lst2.size):
+         return False
+    else:
+            # percorrer a lista lst2
+            lst2.first_Node() # iterador sobre o primeiro elemento
+            while not lst2.isUndefinedIterator():
+                elem = lst2.get_iterator().getData() # li o elemento de lst2
+                #elem = lst2.iterator.data
+                #percorrer a lista lst1
+                lst1.first_Node()
+                while not lst1.isUndefinedIterator():
+                    if lst1.get_iterator().getData() != elem:
+                        lst1.nextNode() # avanca para o proximo node
+                        if lst1.isUndefinedIterator():
+                            return False 
+                    else:
+                        #avancar o iterador de lst2 para o proximo
+                        #lst2.nextNode() 
+                        break
+                #se o iterador de lst1 estiver indefinido: saiu da lista
+                # e nao encontrou elem
+                # if lst1.isUndefinedIterator():
+                #     return False 
+                #avancar o iterador de lst2 para o proximo
+                lst2.nextNode()   
+            if lst2.isUndefinedIterator():
+                return True # encontrou todos os elementos
+            else:
+                return False    
+
+# inverter uma lista lst, destruindo a lista original
+# lst < >
+# lstInv <    [60], 50, 40, 3 >
+# lista vazia: retornar uma lista vazia
+# lista tiver so um ou mais elementos: retorna uma lista invertida com um ou mais elementos 
+# e a lista lst ficará sem elementos
+#
+def invLista(lst:SinglyLinkedListIterator):
+    lstInv = SinglyLinkedListIterator()
+    #por o iterador sobre o primeiro elemento da lista lst
+    lst.first_Node()
+    while(lst.iterator):
+        #inserir o elemento na lista lstInv
+        lstInv.insNode(lst.get_iterator().getData()) # lst.iterator.data
+        lst.elimNode() # nao destruir a lista original: lst.nextNode()
+    return lstInv
+
+lst = SinglyLinkedListIterator()
+# inseri elementos nesta lst
+# gerei uma lista com a sequencia inversa de lst e lst ficou vazia
+lstInv = invLista(lst)
+
+print("teste")
+
+# testar
+# crir a lista lst1
+# inserir elementos em lst1
+# criar a lsita lst2
+# inserir elemento em ls1
+# esta_contida = contidaLista(lst1, lst2)
+#if(esta_contida):
+# if(contidaLista(lst1, lst2)):
+#     print("lista 2 esta contida na lista 1")
+# else:
+#     print("lista 2 NAO esta contida na lista 1")
